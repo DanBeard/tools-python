@@ -21,9 +21,10 @@ from spdx import checksum
 from spdx import creationinfo
 from spdx import document
 from spdx import utils
+from spdx.element import Element
 
 
-class Package(object):
+class Package(Element):
 
     """
     Represent an analyzed Package.

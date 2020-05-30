@@ -17,10 +17,11 @@ from __future__ import unicode_literals
 from functools import total_ordering
 
 from spdx import config
+from spdx.element import Element
 
 
 @total_ordering
-class ExternalDocumentRef(object):
+class ExternalDocumentRef(Element):
     """
     External Document References entity that contains the following fields :
     - external_document_id: A unique string containing letters, numbers, '.',
@@ -50,6 +51,10 @@ class ExternalDocumentRef(object):
             (other.external_document_id, other.spdx_document_uri,
              other.check_sum,)
         )
+
+    @property
+    def spdx_id(self):
+        return self.external_document_id
 
     def validate(self, messages):
         """
@@ -246,7 +251,7 @@ class ExtractedLicense(License):
         return messages
 
 
-class Document(object):
+class Document(Element):
     """
     Represent an SPDX document with these fields:
     - version: Spec version. Mandatory, one - Type: Version.
