@@ -176,13 +176,8 @@ class Package(object):
         return messages
 
     def validate_files(self, messages):
-        if not self.files:
-            messages = messages + [
-                'Package must have at least one file.'
-            ]
-        else:
-            for f in self.files:
-                messages = f.validate(messages)
+        for f in self.files:
+            messages = f.validate(messages)
 
         return messages
 
@@ -233,13 +228,14 @@ class Package(object):
         return messages
 
     def validate_checksum(self, messages):
-        if not isinstance(self.check_sum, checksum.Algorithm):
-            messages = messages + [
-                'Package checksum must be instance of spdx.checksum.Algorithm'
-            ]
-        else:
-            if self.check_sum.identifier != 'SHA1':
-                messages = messages + ['File checksum algorithm must be SHA1']
+        if self.check_sum is not None:
+            if not isinstance(self.check_sum, checksum.Algorithm):
+                messages = messages + [
+                    'Package checksum must be instance of spdx.checksum.Algorithm'
+                ]
+            else:
+                if self.check_sum.identifier != 'SHA1':
+                    messages = messages + ['File checksum algorithm must be SHA1']
 
         return messages
 
