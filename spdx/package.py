@@ -63,6 +63,7 @@ class Package(Element):
      - verif_exc_files : list of file names excluded from verification code or None.
      - ext_pkg_refs : External references referenced within the given package.
      Optional, one or many. Type: ExternalPackageRef
+     -relationships : Relationship to other elements: type: Relationship
     """
 
     def __init__(self, name=None, spdx_id=None, download_location=None,
@@ -90,6 +91,7 @@ class Package(Element):
         self.files = []
         self.verif_exc_files = []
         self.pkg_ext_refs = []
+        self.relationships = []
 
     def add_file(self, fil):
         self.files.append(fil)
@@ -103,6 +105,9 @@ class Package(Element):
     def add_pkg_ext_refs(self, pkg_ext_ref):
         self.pkg_ext_refs.append(pkg_ext_ref)
 
+    def add_relationship(self, relationship):
+        self.relationships.append(relationship)
+
     def validate(self, messages=None):
         """
         Validate the package fields.
@@ -115,6 +120,7 @@ class Package(Element):
         messages = self.validate_pkg_ext_refs(messages)
         messages = self.validate_mandatory_fields(messages)
         messages = self.validate_optional_fields(messages)
+        messages = self.validate_relationships(messages)
 
         return messages
 
@@ -238,6 +244,11 @@ class Package(Element):
                 if self.check_sum.identifier != 'SHA1':
                     messages = messages + ['File checksum algorithm must be SHA1']
 
+        return messages
+
+    def validate_relationships(self, messages):
+        for relationship in self.relationships:
+            messages = relationship.validate(messages)
         return messages
 
     def calc_verif_code(self):

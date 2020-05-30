@@ -46,9 +46,6 @@ class RelationshipOptions:
     OTHER = "OTHER"
 
 
-
-
-
 class Relationship(object):
     """
     Represents a relationship between multiple SPDX elements
@@ -56,18 +53,20 @@ class Relationship(object):
        - source - the source element (first in relationship tag)
        - dest - the dest element (second in relationship tag)
        - relationship  - the relationship between the two
+       - comment - a human readable comment for this relationship - Optional
     """
 
-    def __init__(self, source, dest, relationship):
+    def __init__(self, source, relationship, dest, comment=""):
         self.source = source
         self.dest = dest
         self.relationship = relationship
+        self.comment = comment
 
     def validate(self, messages):
         if not hasattr(self.source, "spdx_id"):
             messages.append("Source of relationship doesnt have an spdx_id")
         if not hasattr(self.dest, "spdx_id"):
             messages.append("Destination of relationship doesnt have an spdx_id")
-        if not hasattr(Relationship, self.relationship):
+        if not hasattr(RelationshipOptions, str(self.relationship)):
             messages.append(str(self.relationship) + " is not a supported relationship")
         return messages

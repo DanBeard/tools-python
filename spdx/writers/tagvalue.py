@@ -260,6 +260,13 @@ def write_package(package, out):
         write_separators(out)
         write_file(spdx_file, out)
 
+    # Write relationships
+    for relationship in package.relationships:
+        write_separators(out)
+        write_text_value("Relationship", " ".join([relationship.source.spdx_id,
+                                                   relationship.relationship, relationship.dest.spdx_id]), out)
+        write_text_value("RelationshipComment", relationship.comment, out)
+
 
 def write_extracted_licenses(lics, out):
     """

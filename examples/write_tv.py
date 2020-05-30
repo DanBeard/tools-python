@@ -6,6 +6,8 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from spdx.relationship import Relationship, RelationshipOptions
+
 if __name__ == '__main__':
     import sys
     import codecs
@@ -39,8 +41,7 @@ if __name__ == '__main__':
     package.download_location = 'http://www.tagwritetest.test/download'
     package.homepage = SPDXNone()
     package.verif_code = '4e3211c67a2d28fced849ee1bb76e7391b93feba'
-    license_set = LicenseConjunction(License.from_identifier('Apache-2.0'),
-        License.from_identifier('BSD-2-Clause'))
+    license_set = LicenseConjunction(License.from_identifier('Apache-2.0'), License.from_identifier('BSD-2-Clause'))
     package.conc_lics = license_set
     package.license_declared = license_set
     package.add_lics_from_file(License.from_identifier('Apache-2.0'))
@@ -48,8 +49,25 @@ if __name__ == '__main__':
     package.cr_text = NoAssert()
     package.summary = 'Simple package.'
     package.description = 'Really simple package.'
-
     doc.add_package(package)
+
+    package2 = Package()
+    package2.spdx_id = "SPDXRef-2"
+    package2.name = 'TagWriteTest'
+    package2.version = '1.0'
+    package2.file_name = 'twt.jar'
+    package2.download_location = 'http://www.tagwritetest.test/download'
+    package2.homepage = SPDXNone()
+    package2.verif_code = '4e3211c67a2d28fced849ee1bb76e7391b93feba'
+    package2.conc_lics = license_set
+    package2.license_declared = license_set
+    package2.add_lics_from_file(License.from_identifier('Apache-2.0'))
+    package2.add_lics_from_file(License.from_identifier('BSD-2-Clause'))
+    package2.cr_text = NoAssert()
+    package2.summary = 'Simple package.'
+    package2.description = 'Really simple package.'
+    package2.add_relationship(Relationship(package2, RelationshipOptions.CONTAINS, package))
+    doc.add_package(package2)
 
     # An extracted license
     lic = ExtractedLicense('LicenseRef-1')
