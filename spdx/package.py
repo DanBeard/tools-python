@@ -75,7 +75,7 @@ class Package(Element):
         self.supplier = supplier
         self.originator = originator
         self.download_location = download_location
-        self.files_analyzed = None
+        self.files_analyzed = True
         self.homepage = None
         self.verif_code = None
         self.check_sum = None
@@ -209,8 +209,12 @@ class Package(Element):
         """Fields marked as Mandatory and of type string in class
         docstring must be of a type that provides __str__ method.
         """
-        FIELDS = ['name', 'spdx_id', 'download_location', 'verif_code', 'cr_text']
+        FIELDS = ['name', 'spdx_id', 'download_location', 'cr_text']
+
         messages = self.validate_str_fields(FIELDS, False, messages)
+        # verif_code is only mandatory if files_analyzed is true
+        if self.files_analyzed and not self.verif_code:
+            messages.append("verif_code must be defined if files_analyzed is True")
 
         return messages
 

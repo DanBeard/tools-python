@@ -22,7 +22,7 @@ if __name__ == '__main__':
     from spdx.utils import SPDXNone, NoAssert, UnKnown
 
     doc = Document(name="Example", spdx_id="SPDXRef-DOCUMENT", namespace=SPDXNone())
-    doc.version = Version(1, 2)
+    doc.version = Version(2, 1)
     doc.comment = 'Example Document'
     doc.data_license = License.from_identifier('CC0-1.0')
     doc.creation_info.add_creator(Person('Alice', 'alice@example.com'))
