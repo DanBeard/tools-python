@@ -265,7 +265,7 @@ def write_package(package, out):
     # Write relationships
     for relationship in package.relationships:
         write_separators(out)
-        write_text_value("Relationship", " ".join([relationship.source.spdx_id,
+        write_value("Relationship", " ".join([relationship.source.spdx_id,
                                                    relationship.relationship, relationship.dest.spdx_id]), out)
         write_text_value("RelationshipComment", relationship.comment, out)
 
